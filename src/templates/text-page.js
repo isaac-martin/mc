@@ -9,7 +9,6 @@ import { rhythm, scale } from '../utils/typography'
 const TextPage = ({ data, pageContext }) => {
   const post = data.mdx
   const siteTitle = data.site.siteMetadata.title
-  const { previous, next } = pageContext
 
   return (
     <Layout title={siteTitle}>
