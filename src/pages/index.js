@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
@@ -6,8 +6,13 @@ import SEO from '../components/seo'
 import { rhythm } from '../utils/typography'
 
 const BlogIndex = ({ data }) => {
+  const [page, setPage] = useState(1)
+
   const siteTitle = data.site.siteMetadata.title
-  const posts = data.allMdx.edges
+  const allPosts = data.allMdx.edges
+  const pages = Math.ceil(allPosts.length / 3)
+  const postToSlice = page === 1 ? 0 : (page - 1) * 3 - 1
+  const paginatedPosts = allPosts.slice(postToSlice, postToSlice + 3)
 
   return (
     <Layout title={siteTitle}>
@@ -15,8 +20,9 @@ const BlogIndex = ({ data }) => {
         title="All posts"
         keywords={[`blog`, `gatsby`, `javascript`, `react`]}
       />
-
-      {posts.map(({ node }) => {
+      Page : {page}
+      Pages : {pages}
+      {paginatedPosts.map(({ node }) => {
         const title = node.frontmatter.title || node.fields.slug
         return (
           <div key={node.fields.slug}>
@@ -30,10 +36,20 @@ const BlogIndex = ({ data }) => {
               </Link>
             </h3>
             <small>{node.frontmatter.date}</small>
-            <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
+            <p
+              dangerouslySetInnerHTML={{
+                __html: node.excerpt,
+              }}
+            />
           </div>
         )
       })}
+      {page !== 1 && (
+        <button onClick={() => setPage(page - 1)}>Previous</button>
+      )}
+      {page !== pages && (
+        <button onClick={() => setPage(page + 1)}>Next</button>
+      )}
     </Layout>
   )
 }
