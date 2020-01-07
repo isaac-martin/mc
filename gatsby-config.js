@@ -1,3 +1,4 @@
+var proxy = require('http-proxy-middleware')
 module.exports = {
   siteMetadata: {
     title: `Blog`,
@@ -5,6 +6,18 @@ module.exports = {
     description: `MC Blog`,
     siteUrl: `https://gatsby-starter-blog-mdx-demo.netlify.com/`,
   },
+  developMiddleware: app => {
+    app.use(
+      '/.netlify/functions/',
+      proxy({
+        target: 'http://[::1]:9000',
+        pathRewrite: {
+          '/.netlify/functions/': '',
+        },
+      })
+    )
+  },
+
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
