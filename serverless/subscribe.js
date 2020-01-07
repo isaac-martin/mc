@@ -1,16 +1,23 @@
 const axios = require('axios')
 require('dotenv').config()
 
-module.exports = function(context, callback) {
+export function handler(context, callback) {
+  const APIKEY = process.env.MAILCHIMP_API_KEY
+  if (!APIKEY) {
+    console.error('No MailChimp API Key include in environment variables')
+    process.exit(1)
+  }
   if (!context.body || !context.body.email) {
     callback('Missing email parameter')
     return
   }
 
+  console.log('isaac')
+
   const { email } = context.body
 
   const regionName = 'us1'
-  const apiKey = 'xxxxxxxxxx'
+  const apiKey = APIKEY
   const listId = 'xxxxxxxxxx'
   const url = `https://${regionName}.api.mailchimp.com/3.0/lists/${listId}/members/`
 
