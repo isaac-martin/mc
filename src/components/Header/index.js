@@ -1,5 +1,6 @@
 import React from 'react'
-import Nav from './Nav'
+import Nav from '../Nav'
+import Logo from '../../icons/logo'
 
 const navItems = [
   {
@@ -17,7 +18,12 @@ const navItems = [
 ]
 
 const Header = () => {
-  return <Nav navItems={navItems} />
+  return (
+    <header>
+      {/* <Logo /> */}
+      <Nav navItems={navItems} />
+    </header>
+  )
 }
 
 export default Header

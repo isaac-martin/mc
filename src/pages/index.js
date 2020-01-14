@@ -20,8 +20,6 @@ const BlogIndex = ({ data }) => {
         title="All posts"
         keywords={[`blog`, `gatsby`, `javascript`, `react`]}
       />
-      Page : {page}
-      Pages : {pages}
       {paginatedPosts.map(({ node }) => {
         const title = node.frontmatter.title || node.fields.slug
         return (
